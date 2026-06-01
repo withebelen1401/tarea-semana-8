@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WithBelen & Yeros TechStudy - Dashboard Inteligente</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- PANTALLA DE BIENVENIDA CON ANIMACIÓN -->
+    <div id="welcomeScreen" class="welcome-screen">
+        <div class="welcome-content">
+            <div class="welcome-icon">🚀</div>
+            <h1>WithBelen & Yeros<span class="gradient-text"> TechStudy</span></h1>
+            <p class="welcome-subtitle">Dashboard Académico Inteligente para UNE</p>
+            <div class="welcome-loader">
+                <div class="loader-bar"></div>
+            </div>
+            <p class="loading-text">Cargando tu espacio de estudio...</p>
+        </div>
+    </div>
+
+    <!-- SELECTOR DE TEMA CON ANIMACIÓN -->
+    <div id="themeSelector" class="theme-selector">
+        <div class="theme-container">
+            <div class="theme-header">
+                <h1>✨ Elige tu Estilo</h1>
+                <p>Personaliza tu experiencia académica</p>
+            </div>
+            
+            <div class="theme-options">
+                <div class="theme-card" id="rosaCard" onclick="setTheme('rosa')">
+                    <div class="theme-icon">💗</div>
+                    <div class="theme-name">Tema Rosita</div>
+                    <div class="theme-desc">Moderno y Energético</div>
+                    <div class="theme-preview">
+                        <div class="preview-dot rosa"></div>
+                        <div class="preview-dot rosa-light"></div>
+                    </div>
+                </div>
+
+                <div class="theme-card" id="azulCard" onclick="setTheme('azul')">
+                    <div class="theme-icon">💙</div>
+                    <div class="theme-name">Tema Azul</div>
+                    <div class="theme-desc">Profesional y Técnico</div>
+                    <div class="theme-preview">
+                        <div class="preview-dot azul"></div>
+                        <div class="preview-dot azul-light"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-info">
+                <p>💡 Puedes cambiar el tema en cualquier momento desde la aplicación</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div id="mainApp" class="main-app" style="display: none;">
+        <!-- SIDEBAR INTERACTIVO -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo-animated">
+                        <span class="logo-icon">⚡</span>
+                    </div>
+                    <div>
+                        <div class="logo-text">TechStudy</div>
+                        <div class="logo-subtext">UNE</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="dashboard" onclick="switchSection('dashboard')" title="Dashboard principal">
+                    <span class="icon-nav">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                    <span class="nav-indicator"></span>
+                </button>
+                <button class="nav-item" data-section="tareas" onclick="switchSection('tareas')" title="Gestionar tareas">
+                    <span class="icon-nav">✅</span>
+                    <span class="nav-text">Mis Tareas</span>
+                    <span class="nav-indicator"></span>
+                </button>
+                <button class="nav-item" data-section="bitacora" onclick="switchSection('bitacora')" title="Registro de aprendizaje">
+                    <span class="icon-nav">📝</span>
+                    <span class="nav-text">Bitácora</span>
+                    <span class="nav-indicator"></span>
+                </button>
+                <button class="nav-item" data-section="recursos" onclick="switchSection('recursos')" title="Recursos técnicos">
+                    <span class="icon-nav">📚</span>
+                    <span class="nav-text">Recursos</span>
+                    <span class="nav-indicator"></span>
+                </button>
+                <button class="nav-item" data-section="herramientas" onclick="switchSection('herramientas')" title="Herramientas prácticas">
+                    <span class="icon-nav">🛠️</span>
+                    <span class="nav-text">Herramientas</span>
+                    <span class="nav-indicator"></span>
+                </button>
+                <button class="nav-item" data-section="estadisticas" onclick="switchSection('estadisticas')" title="Análisis de progreso">
+                    <span class="icon-nav">📈</span>
+                    <span class="nav-text">Estadísticas</span>
+                    <span class="nav-indicator"></span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="theme-toggle" onclick="toggleDarkMode()" title="Cambiar a modo oscuro/claro">
+                    <span id="darkModeIcon">🌙</span>
+                    <span id="darkModeText">Oscuro</span>
+                </button>
+                <button class="theme-switch" onclick="openThemeMenu()" title="Cambiar tema">
+                    <span>🎨</span>
+                    <span>Tema</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="main-content">
+            <!-- HEADER CON EFECTOS -->
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="greeting-section">
+                        <h1 id="greeting" class="greeting-text">Hola, Estudiante 👋</h1>
+                        <p id="dateDisplay" class="date-text">Cargando fecha...</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="clock-widget">
+                        <div id="digitalClock" class="digital-clock">00:00:00</div>
+                        <p class="clock-label">Hora Local</p>
+                    </div>
+                    <div class="weather-widget">
+                        <span class="weather-icon">☀️</span>
+                        <span class="weather-text">Día de Estudios</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SECCIÓN: DASHBOARD -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>📊 Dashboard Principal</h2>
+                    <p class="section-subtitle">Tu espacio de estudio personalizado</p>
+                </div>
+
+                <!-- CARD DE RECOMENDACIÓN INTELIGENTE -->
+                <div class="smart-card recommendation-card" onmouseover="this.style.transform='translateY(-10px) scale(1.02)'" onmouseout="this.style.transform='translateY(0) scale(1)'">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content">
+                        <h3>Recomendación del Día</h3>
+                        <p id="dailyRecommendation">Cargando sugerencias...</p>
+                    </div>
+                    <button class="refresh-btn" onclick="showDailyRecommendation()" title="Actualizar recomendación">🔄</button>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- CALENDARIO INTERACTIVO -->
+                    <div class="card calendar-card">
+                        <div class="card-header">
+                            <h3>📅 Calendario</h3>
+                            <span class="card-icon-small">✨</span>
+                        </div>
+                        <div id="calendar" class="calendar"></div>
+                    </div>
+
+                    <!-- TAREAS DE HOY -->
+                    <div class="card tasks-today-card">
+                        <div class="card-header">
+                            <h3>✅ Para Hoy</h3>
+                            <span id="todayTaskCount" class="badge">0</span>
+                        </div>
+                        <div id="tasksTodayList" class="tasks-list">
+                            <p class="empty-state">📭 Sin tareas por ahora</p>
+                        </div>
+                    </div>
+
+                    <!-- RECORDATORIOS ANIMADOS -->
+                    <div class="card reminders-card">
+                        <div class="card-header">
+                            <h3>🔔 Recordatorios</h3>
+                            <span class="notification-badge">!</span>
+                        </div>
+                        <div id="remindersList" class="reminders-list">
+                            <div class="reminder-item" onmouseenter="this.style.transform='translateX(5px)'" onmouseleave="this.style.transform='translateX(0)'">
+                                <span class="reminder-time">09:00</span>
+                                <span class="reminder-icon">📖</span>
+                                <span class="reminder-text">Revisar apuntes Telecom</span>
+                            </div>
+                            <div class="reminder-item" onmouseenter="this.style.transform='translateX(5px)'" onmouseleave="this.style.transform='translateX(0)'">
+                                <span class="reminder-time">14:00</span>
+                                <span class="reminder-icon">🔧</span>
+                                <span class="reminder-text">Lab de Redes</span>
+                            </div>
+                            <div class="reminder-item" onmouseenter="this.style.transform='translateX(5px)'" onmouseleave="this.style.transform='translateX(0)'">
+                                <span class="reminder-time">16:30</span>
+                                <span class="reminder-icon">🐧</span>
+                                <span class="reminder-text">Estudiar Linux</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CURSOS CON PROGRESO ANIMADO -->
+                    <div class="card courses-card">
+                        <div class="card-header">
+                            <h3>📚 Cursos</h3>
+                            <span class="card-icon-small">🎓</span>
+                        </div>
+                        <div id="coursesList" class="courses-list">
+                            <div class="course-item" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                                <div class="course-info">
+                                    <span class="course-name">Telecomunicaciones I</span>
+                                    <span class="course-percent">65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill animate-progress" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                            <div class="course-item" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                                <div class="course-info">
+                                    <span class="course-name">Sistemas Operativos</span>
+                                    <span class="course-percent">80%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill animate-progress" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <div class="course-item" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                                <div class="course-info">
+                                    <span class="course-name">Redes de Computadoras</span>
+                                    <span class="course-percent">72%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill animate-progress" style="width: 72%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADÍSTICAS RÁPIDAS CON ANIMACIÓN -->
+                    <div class="card stats-card">
+                        <div class="card-header">
+                            <h3>📊 Esta Semana</h3>
+                            <span class="card-icon-small">⚡</span>
+                        </div>
+                        <div class="quick-stats">
+                            <div class="stat-box">
+                                <div class="stat-number" id="completedTasksCount">0</div>
+                                <div class="stat-label">Completadas</div>
+                                <div class="stat-icon">✔️</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="pendingTasksCount">0</div>
+                                <div class="stat-label">Pendientes</div>
+                                <div class="stat-icon">⏳</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-number" id="studyHoursCount">0</div>
+                                <div class="stat-label">Horas Est.</div>
+                                <div class="stat-icon">⏱️</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: TAREAS CON INTERFAZ DINÁMICA -->
+            <section id="tareas" class="section">
+                <div class="section-header">
+                    <h2>✅ Gestor de Tareas</h2>
+                    <p class="section-subtitle">Organiza tus actividades académicas</p>
+                </div>
+
+                <!-- FORMULARIO DINÁMICO -->
+                <div class="card task-form-card">
+                    <div class="form-header">
+                        <h3>➕ Crear Nueva Tarea</h3>
+                        <span class="form-icon">📝</span>
+                    </div>
+                    <form id="taskForm" class="task-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskName">
+                                    <span class="label-icon">📄</span>
+                                    <span>Nombre</span>
+                                </label>
+                                <input type="text" id="taskName" placeholder="Ej: Estudiar Capítulo 5" 
+                                    onkeyup="validateTaskInput()" 
+                                    onfocus="this.style.boxShadow='0 0 20px rgba(236, 72, 153, 0.4)'"
+                                    onblur="this.style.boxShadow='0 0 0px rgba(0,0,0,0)'"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskCourse">
+                                    <span class="label-icon">📚</span>
+                                    <span>Curso</span>
+                                </label>
+                                <select id="taskCourse" 
+                                    onchange="updateFormPreview()"
+                                    onfocus="this.style.borderColor='#ec4899'"
+                                    onblur="this.style.borderColor='#fbcfe8'"
+                                    required>
+                                    <option value="">Selecciona...</option>
+                                    <option value="Telecomunicaciones I">📡 Telecomunicaciones I</option>
+                                    <option value="Sistemas Operativos">💻 Sistemas Operativos</option>
+                                    <option value="Redes">🌐 Redes de Computadoras</option>
+                                    <option value="Electrónica">⚡ Electrónica Digital</option>
+                                    <option value="Linux">🐧 Linux Avanzado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskPriority">
+                                    <span class="label-icon">⭐</span>
+                                    <span>Prioridad</span>
+                                </label>
+                                <select id="taskPriority" 
+                                    onchange="updateFormPreview()"
+                                    onfocus="this.style.borderColor='#ec4899'"
+                                    onblur="this.style.borderColor='#fbcfe8'"
+                                    required>
+                                    <option value="baja">🟢 Baja</option>
+                                    <option value="media">🟡 Media</option>
+                                    <option value="alta">🔴 Alta</option>
+                                    <option value="urgente">🔥 Urgente</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskDate">
+                                    <span class="label-icon">📅</span>
+                                    <span>Fecha</span>
+                                </label>
+                                <input type="date" id="taskDate" 
+                                    onchange="updateFormPreview()"
+                                    onfocus="this.style.boxShadow='0 0 20px rgba(236, 72, 153, 0.4)'"
+                                    onblur="this.style.boxShadow='0 0 0px rgba(0,0,0,0)'"
+                                    required>
+                            </div>
+                        </div>
+
+                        <!-- PREVIEW DINÁMICA -->
+                        <div id="taskPreview" class="task-preview" style="display: none;">
+                            <p>Vista previa:</p>
+                            <div class="preview-task"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-large" onmouseover="this.style.transform='scale(1.05) translateY(-2px)'" onmouseout="this.style.transform='scale(1) translateY(0)'">
+                            <span>✨</span>
+                            <span>Agregar Tarea</span>
+                            <span class="btn-shine"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- LISTA DE TAREAS CON FILTROS -->
+                <div class="card tasks-list-card">
+                    <div class="card-header">
+                        <h3>📋 Mis Tareas</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" onclick="filterTasks('todas')">Todas</button>
+                            <button class="filter-btn" onclick="filterTasks('pendientes')">Pendientes</button>
+                            <button class="filter-btn" onclick="filterTasks('completadas')">Completadas</button>
+                        </div>
+                    </div>
+                    <div id="tasksList" class="tasks-container">
+                        <p class="empty-state">🚀 ¡Crea tu primera tarea!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: BITÁCORA INTELIGENTE -->
+            <section id="bitacora" class="section">
+                <div class="section-header">
+                    <h2>📝 Bitácora Académica</h2>
+                    <p class="section-subtitle">Registra tu aprendizaje diario</p>
+                </div>
+
+                <!-- FORMULARIO CON VALIDACIÓN -->
+                <div class="card bitacora-form-card">
+                    <div class="form-header">
+                        <h3>📖 ¿Qué aprendiste hoy?</h3>
+                        <span class="form-icon">✨</span>
+                    </div>
+                    <form id="bitacoraForm" class="bitacora-form">
+                        <div class="form-group">
+                            <label for="learned">
+                                <span class="label-icon">✅</span>
+                                <span>Lo que aprendí</span>
+                            </label>
+                            <textarea id="learned" placeholder="Describe tus nuevos conocimientos..." 
+                                rows="3"
+                                onkeyup="countCharacters(this, 'learnedCount')"
+                                onkeydown="this.style.borderColor='#ec4899'"
+                                onblur="this.style.borderColor='#fbcfe8'"></textarea>
+                            <span class="char-count"><span id="learnedCount">0</span>/200</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="confused">
+                                <span class="label-icon">❓</span>
+                                <span>Lo que me confundió</span>
+                            </label>
+                            <textarea id="confused" placeholder="¿Hay algo que no entendiste?" 
+                                rows="3"
+                                onkeyup="countCharacters(this, 'confusedCount')"
+                                onkeydown="this.style.borderColor='#ec4899'"
+                                onblur="this.style.borderColor='#fbcfe8'"></textarea>
+                            <span class="char-count"><span id="confusedCount">0</span>/200</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="studyTime">
+                                <span class="label-icon">⏱️</span>
+                                <span>Tiempo de estudio (minutos)</span>
+                            </label>
+                            <input type="number" id="studyTime" placeholder="Ej: 120" 
+                                min="0" 
+                                max="480"
+                                oninput="updateTimeSlider(this.value)"
+                                onfocus="this.style.boxShadow='0 0 20px rgba(236, 72, 153, 0.4)'"
+                                onblur="this.style.boxShadow='0 0 0px rgba(0,0,0,0)'">
+                            <input type="range" id="timeSlider" min="0" max="480" value="0" 
+                                oninput="document.getElementById('studyTime').value = this.value; updateTimeSlider(this.value)"
+                                class="time-slider">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <span>💾</span>
+                            <span>Guardar Bitácora</span>
+                            <span class="btn-shine"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- RECOMENDACIONES INTELIGENTES -->
+                <div id="bitacoraRecommendations" class="card recommendations-card" style="display: none;">
+                    <div class="card-header">
+                        <h3>💡 Recomendaciones Inteligentes</h3>
+                        <span class="card-icon-small">🎯</span>
+                    </div>
+                    <div id="recommendationsList" class="recommendations-list"></div>
+                </div>
+
+                <!-- HISTORIAL CON ANIMACIÓN -->
+                <div class="card bitacora-history-card">
+                    <div class="card-header">
+                        <h3>📚 Historial</h3>
+                        <span id="historyCount" class="badge">0</span>
+                    </div>
+                    <div id="bitacoraHistory" class="bitacora-history">
+                        <p class="empty-state">🕐 Sin registros aún</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: RECURSOS TÉCNICOS -->
+            <section id="recursos" class="section">
+                <div class="section-header">
+                    <h2>📚 Recomendador Técnico</h2>
+                    <p class="section-subtitle">Recursos para tu aprendizaje</p>
+                </div>
+
+                <div class="recursos-grid">
+                    <div class="resource-card" onmouseover="this.style.transform='translateY(-15px) rotate(2deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'" onclick="showResourceDetails('redes')" ondblclick="alert('Recurso de Redes - Doble click detectado ✓')">
+                        <div class="resource-icon">🌐</div>
+                        <h3>Redes</h3>
+                        <p>OSI, TCP/IP, DNS</p>
+                        <span class="resource-arrow">→</span>
+                    </div>
+
+                    <div class="resource-card" onmouseover="this.style.transform='translateY(-15px) rotate(-2deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'" onclick="showResourceDetails('electronica')" ondblclick="alert('Recurso de Electrónica - Doble click detectado ✓')">
+                        <div class="resource-icon">⚡</div>
+                        <h3>Electrónica</h3>
+                        <p>Compuertas, Circuitos</p>
+                        <span class="resource-arrow">→</span>
+                    </div>
+
+                    <div class="resource-card" onmouseover="this.style.transform='translateY(-15px) rotate(2deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'" onclick="showResourceDetails('linux')" ondblclick="alert('Recurso de Linux - Doble click detectado ✓')">
+                        <div class="resource-icon">🐧</div>
+                        <h3>Linux</h3>
+                        <p>Terminal, Comandos</p>
+                        <span class="resource-arrow">→</span>
+                    </div>
+
+                    <div class="resource-card" onmouseover="this.style.transform='translateY(-15px) rotate(-2deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'" onclick="showResourceDetails('sistemas')" ondblclick="alert('Recurso de SO - Doble click detectado ✓')">
+                        <div class="resource-icon">💻</div>
+                        <h3>Sistemas</h3>
+                        <p>Procesos, Memoria</p>
+                        <span class="resource-arrow">→</span>
+                    </div>
+
+                    <div class="resource-card" onmouseover="this.style.transform='translateY(-15px) rotate(2deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'" onclick="showResourceDetails('telecom')" ondblclick="alert('Recurso de Telecom - Doble click detectado ✓')">
+                        <div class="resource-icon">📡</div>
+                        <h3>Telecom</h3>
+                        <p>Ondas, Modulación</p>
+                        <span class="resource-arrow">→</span>
+                    </div>
+
+                    <div class="resource-card" onmouseover="this.style.transform='translateY(-15px) rotate(-2deg)'" onmouseout="this.style.transform='translateY(0) rotate(0deg)'" onclick="showResourceDetails('bases')" ondblclick="alert('Recurso de BD - Doble click detectado ✓')">
+                        <div class="resource-icon">🗄️</div>
+                        <h3>BD</h3>
+                        <p>SQL, Normalización</p>
+                        <span class="resource-arrow">→</span>
+                    </div>
+                </div>
+
+                <!-- DETALLES DE RECURSOS CON MODAL -->
+                <div id="resourceDetails" class="modal-overlay" onclick="hideResourceDetails()">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <button class="modal-close" onclick="hideResourceDetails()">✕</button>
+                        <h3 id="resourceTitle">Título</h3>
+                        <div id="resourceContent" class="resource-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: HERRAMIENTAS TÉCNICAS -->
+            <section id="herramientas" class="section">
+                <div class="section-header">
+                    <h2>🛠️ Herramientas Técnicas</h2>
+                    <p class="section-subtitle">Utilidades para estudiantes de TI</p>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- CONVERSOR BINARIO -->
+                    <div class="card tool-card">
+                        <div class="tool-header">
+                            <h3>🔢 Conversor Binario</h3>
+                            <span class="tool-icon">✨</span>
+                        </div>
+                        <div class="tool-content">
+                            <input type="number" id="decimalInput" placeholder="Ingresa decimal" 
+                                min="0" 
+                                oninput="convertToDecimal()"
+                                onkeyup="if(event.key==='Enter') convertToDecimal()"
+                                onfocus="this.style.boxShadow='0 0 20px rgba(236, 72, 153, 0.4)'"
+                                onblur="this.style.boxShadow='0 0 0px rgba(0,0,0,0)'">
+                            <div id="binaryResult" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- TABLA ASCII -->
+                    <div class="card tool-card">
+                        <div class="tool-header">
+                            <h3>🔤 Tabla ASCII</h3>
+                            <span class="tool-icon">📖</span>
+                        </div>
+                        <div class="tool-content">
+                            <input type="text" id="asciiInput" placeholder="Carácter" 
+                                maxlength="1"
+                                oninput="getASCII()"
+                                onkeyup="if(event.key==='Enter') getASCII()"
+                                onfocus="this.style.boxShadow='0 0 20px rgba(236, 72, 153, 0.4)'"
+                                onblur="this.style.boxShadow='0 0 0px rgba(0,0,0,0)'">
+                            <div id="asciiResult" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- CALCULADORA IP -->
+                    <div class="card tool-card">
+                        <div class="tool-header">
+                            <h3>🌐 Calculadora IP</h3>
+                            <span class="tool-icon">🔍</span>
+                        </div>
+                        <div class="tool-content">
+                            <input type="text" id="ipInput" placeholder="Ej: 192.168.1.1"
+                                oninput="analyzeIP()"
+                                onkeyup="if(event.key==='Enter') analyzeIP()"
+                                onfocus="this.style.boxShadow='0 0 20px rgba(236, 72, 153, 0.4)'"
+                                onblur="this.style.boxShadow='0 0 0px rgba(0,0,0,0)'">
+                            <div id="ipResult" class="tool-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- CONCEPTOS DE REDES -->
+                    <div class="card tool-card">
+                        <div class="tool-header">
+                            <h3>💡 Conceptos</h3>
+                            <span class="tool-icon">🎓</span>
+                        </div>
+                        <div class="tool-content">
+                            <select id="networkConcept" 
+                                onchange="showNetworkConcept()"
+                                onfocus="this.style.borderColor='#ec4899'"
+                                onblur="this.style.borderColor='#fbcfe8'">
+                                <option value="">Selecciona...</option>
+                                <option value="ipv4">IPv4</option>
+                                <option value="ipv6">IPv6</option>
+                                <option value="dns">DNS</option>
+                                <option value="dhcp">DHCP</option>
+                                <option value="firewall">Firewall</option>
+                            </select>
+                            <div id="conceptResult" class="tool-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: ESTADÍSTICAS -->
+            <section id="estadisticas" class="section">
+                <div class="section-header">
+                    <h2>📈 Estadísticas y Análisis</h2>
+                    <p class="section-subtitle">Tu progreso académico</p>
+                </div>
+
+                <div class="stats-grid">
+                    <!-- TAREAS COMPLETADAS -->
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <h3>✅ Completadas</h3>
+                            <span class="stat-emoji">✔️</span>
+                        </div>
+                        <div class="stat-visualization">
+                            <div class="stat-large" id="completedStat">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-bar-fill" id="completedBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAREAS PENDIENTES -->
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <h3>⏳ Pendientes</h3>
+                            <span class="stat-emoji">⌛</span>
+                        </div>
+                        <div class="stat-visualization">
+                            <div class="stat-large" id="pendingStat">0</div>
+                            <div class="stat-bar">
+                                <div class="stat-bar-fill warning" id="pendingBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CURSOS TOP -->
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <h3>📚 Top Cursos</h3>
+                            <span class="stat-emoji">🏆</span>
+                        </div>
+                        <div id="topCourses" class="top-courses">
+                            <div class="course-bar" onmouseover="this.style.transform='scaleX(1.05)'" onmouseout="this.style.transform='scaleX(1)'">
+                                <span>Telecomunicaciones</span>
+                                <div class="bar"><div class="bar-fill" style="width: 85%;"></div></div>
+                            </div>
+                            <div class="course-bar" onmouseover="this.style.transform='scaleX(1.05)'" onmouseout="this.style.transform='scaleX(1)'">
+                                <span>Redes</span>
+                                <div class="bar"><div class="bar-fill" style="width: 72%;"></div></div>
+                            </div>
+                            <div class="course-bar" onmouseover="this.style.transform='scaleX(1.05)'" onmouseout="this.style.transform='scaleX(1)'">
+                                <span>Sistemas</span>
+                                <div class="bar"><div class="bar-fill" style="width: 65%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROGRESO SEMANAL -->
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <h3>📊 Semanal</h3>
+                            <span class="stat-emoji">📅</span>
+                        </div>
+                        <div id="weeklyProgress" class="weekly-progress">
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">L</span>
+                                <div class="day-bar"><div style="height: 60%;"></div></div>
+                            </div>
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">M</span>
+                                <div class="day-bar"><div style="height: 75%;"></div></div>
+                            </div>
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">M</span>
+                                <div class="day-bar"><div style="height: 55%;"></div></div>
+                            </div>
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">J</span>
+                                <div class="day-bar"><div style="height: 85%;"></div></div>
+                            </div>
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">V</span>
+                                <div class="day-bar"><div style="height: 70%;"></div></div>
+                            </div>
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">S</span>
+                                <div class="day-bar"><div style="height: 40%;"></div></div>
+                            </div>
+                            <div class="day-progress" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="day-name">D</span>
+                                <div class="day-bar"><div style="height: 50%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL DE TEMA -->
+    <div id="themeModal" class="modal-overlay" onclick="closeThemeMenu()" style="display: none;">
+        <div class="modal-content small-modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeThemeMenu()">✕</button>
+            <h3>🎨 Cambiar Tema</h3>
+            <div class="theme-options-modal">
+                <button class="theme-option" onclick="setTheme('rosa'); closeThemeMenu()">
+                    <span>💗</span>
+                    <span>Rosita</span>
+                </button>
+                <button class="theme-option" onclick="setTheme('azul'); closeThemeMenu()">
+                    <span>💙</span>
+                    <span>Azul</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
